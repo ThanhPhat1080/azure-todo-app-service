@@ -1,0 +1,11 @@
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - '5000:5000'
+        environment:
+            - DATABASE_URL=sqlserver://bluesky94.database.windows.net:1433;database=DEV001;user=lubu;password=Admin@123;encrypt=true;trustServerCertificate=false;connectionTimeout=30
+
