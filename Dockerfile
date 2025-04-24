@@ -32,7 +32,6 @@ COPY backend/ .
 # Environment variables
 ENV NODE_ENV=production
 ENV PORT=5000
-ENV DATABASE_URL="sqlserver://bluesky94.database.windows.net:1433;database=DEV001;user=lubu;password=Admin@123;encrypt=true;trustServerCertificate=false;connectionTimeout=30"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
