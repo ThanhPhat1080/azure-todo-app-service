@@ -1,36 +1,39 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+export class TodoRepository {
+  constructor(prisma) {
+    this.prisma = prisma;
+  }
 
-class TodoRepository {
   async findAll() {
-    return await prisma.todo.findMany({
+    return await this.prisma.todo.findMany({
       orderBy: { createdAt: 'desc' }
     });
   }
 
   async create(data) {
-    return await prisma.todo.create({ data });
+    return await this.prisma.todo.create({ data });
   }
 
   async findById(id) {
-    return await prisma.todo.findUnique({
+    return await this.prisma.todo.findUnique({
       where: { id }
     });
   }
 
   async delete(id) {
-    return await prisma.todo.delete({
+    return await this.prisma.todo.delete({
       where: { id }
     });
   }
 
   async update(id, data) {
-    return await prisma.todo.update({
+    return await this.prisma.todo.update({
       where: { id },
       data
     });
   }
 }
 
-export default new TodoRepository();
+const prisma = new PrismaClient();
+export default new TodoRepository(prisma);

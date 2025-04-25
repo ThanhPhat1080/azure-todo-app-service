@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import api from "./api";
 import ComfirmationDialog from "./components/ConfirmationModal";
 
@@ -35,7 +35,6 @@ function App() {
     const res = await api.put(`/todos/${id}/toggle`);
     setTodos(todos.map((todo) => (todo.id === id ? res.data : todo)));
   };
-console.log(isModalOpen);
 
   return (
     <>
