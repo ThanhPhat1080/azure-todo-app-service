@@ -20,7 +20,15 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: '20'
-                  cache: 'npm'
+
+            # Frontend setup and test
+            - name: Cache Frontend Dependencies
+              uses: actions/cache@v3
+              with:
+                  path: frontend/node_modules
+                  key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-frontend-
 
             - name: Install Frontend Dependencies
               working-directory: ./frontend
@@ -29,6 +37,15 @@ jobs:
             - name: Run Frontend Tests
               working-directory: ./frontend
               run: npm test
+
+            # Backend setup and test
+            - name: Cache Backend Dependencies
+              uses: actions/cache@v3
+              with:
+                  path: backend/node_modules
+                  key: ${{ runner.os }}-backend-${{ hashFiles('backend/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-backend-
 
             - name: Install Backend Dependencies
               working-directory: ./backend
