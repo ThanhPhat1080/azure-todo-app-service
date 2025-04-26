@@ -61,20 +61,17 @@ function Todo({ todos, handleToggleTodo }) {
         return state.map((todo) => (todo.id == id ? { ...todo, completed: !todo.completed, isPending } : todo));
     });
 
-    console.log('optimisticTodos', optimisticTodos)
-   
     const onToggleTodo = async (id) => {
         startTransition(async () => {
-            // Apply optimistic update immediately
             optimisticallyToggleTodo(id);
 
             try {
-                // Perform actual API update
                 await handleToggleTodo(id);
             } catch (error) {
                 console.error('Failed to toggle todo:', error);
-                // You might want to revert the optimistic update here
-                optimisticallyToggleTodo(id); // Toggle back if failed
+
+                // Revert if failed
+                optimisticallyToggleTodo(id);
             }
         });
     };
