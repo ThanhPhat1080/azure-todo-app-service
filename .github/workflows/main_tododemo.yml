@@ -58,8 +58,8 @@ jobs:
               run: npm test
 
     build:
+        needs: test
         runs-on: 'ubuntu-latest'
-
         steps:
             - uses: actions/checkout@v2
 
@@ -81,8 +81,8 @@ jobs:
                   file: ./Dockerfile
 
     deploy:
+        needs: [test, build]
         runs-on: ubuntu-latest
-        needs: build
         environment:
             name: 'production'
             url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
