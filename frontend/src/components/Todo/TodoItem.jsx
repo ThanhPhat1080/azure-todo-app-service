@@ -2,14 +2,14 @@ import React from 'react';
 
 export default function TodoItem({ todo, onToggle, onDelete }) {
   return (
-    <li className="flex items-center justify-between text-sm py-2">
+    <li className={`flex items-center justify-between text-sm py-2 ${todo.isPending ? 'opacity-50' : ''}`}>
       <div
-        tabIndex={0}
+        tabIndex={todo.isPending ? -1 : 0}
         role="button"
         className="flex items-center gap-3 cursor-pointer flex-1"
-        onClick={() => onToggle(todo.id)}
+        onClick={() => !todo.isPending && onToggle(todo.id)}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (!todo.isPending && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             onToggle(todo.id);
           }
@@ -40,12 +40,16 @@ export default function TodoItem({ todo, onToggle, onDelete }) {
 
       <button
         onClick={() => onDelete(todo)}
-        className="text-gray-400 hover:text-red-500"
+        disabled={todo.isPending}
+        className={`text-gray-400 ${
+          todo.isPending 
+            ? 'cursor-not-allowed opacity-50'
+            : 'hover:text-red-500'
+        }`}
+        aria-label={`Delete ${todo.text}`}
       >
         ✕
       </button>
-      {todo.isPending && <small className="text-sm text-gray-500">Updating...</small>}
-
     </li>
   );
 }
